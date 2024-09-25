@@ -1,7 +1,7 @@
 import React from "react";
-import heroPic from "../../../public/navbar/landingPic.png";
+import heroPic from "../../../public/homePage/landingPic.png";
 import Image from "next/image";
-import authoPic from "../../../public/navbar/flowed-author-pic.png";
+import authoPic from "../../../public/homePage/flowed-author-pic.png";
 
 type Props = {};
 
