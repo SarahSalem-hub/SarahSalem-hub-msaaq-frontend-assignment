@@ -3,4 +3,10 @@
     "login": "Login",
     "register": "Register"
   }
+  ,
+  "login":{
+    "email": "Email" ,
+    "password": "Password"
+  }
+
 }
