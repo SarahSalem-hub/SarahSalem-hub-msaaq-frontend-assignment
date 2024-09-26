@@ -2,7 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+@layer utilities{
+  .item {
+    @apply absolute md:relative md:flex  justify-center lg:gap-[40px] md:gap-[30px] gap-[10px] text-[#3B3C4A] dark:text-[#FFFFFF]
+  }
+}
+
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -43,4 +49,4 @@ a {
   html {
     color-scheme: dark;
   }
-}
+} */

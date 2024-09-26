@@ -16,6 +16,7 @@
     "postcss": "^8.4.47",
     "react": "^18",
     "react-dom": "^18",
+    "react-icons": "^5.3.0",
     "rtl-detect": "^1.1.2"
   },
   "devDependencies": {
@@ -38,13 +39,13 @@
     }
   },
   "lint-staged": {
-  "*.js": [
-    "eslint --fix",
-    "prettier --write"
-  ],
-  "*.ts": [
-    "eslint --fix",
-    "prettier --write"
-  ]
-}
+    "*.js": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  }
 }
