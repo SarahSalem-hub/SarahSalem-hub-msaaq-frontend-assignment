@@ -1,7 +1,6 @@
 // import { cookies } from "next/headers";
 import HeroSection from "@/app/ui/Home/HeroSection";
-import styles from "../page.module.css";
-import Link from "next/link";
+import Posts from "@/app/ui/Home/Posts/Posts";
 // import HomePage from "./(main)/home/page";
 // import { redirect } from "next/dist/server/api-utils";
 
@@ -11,7 +10,16 @@ import Link from "next/link";
 //   return token;
 // };
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) {
+  const query = searchParams?.query || "";
+  const currentPage = Number(searchParams?.page) || 1;
   // const token = getToken();
 
   // const cookieStore = cookies();
@@ -28,9 +36,15 @@ export default function Home() {
   // }
 
   return (
-    <div className="w-full h-screen flex justify-center dark:bg-[#181A2A] bg-[#FFFFFF]">
-      <div className=" w-[1216px] h-screen">
-        <HeroSection/>
+    <div className="w-full  flex justify-center dark:bg-[#181A2A] bg-[#FFFFFF]">
+      <div className=" w-[1216px]">
+        <HeroSection />
+        <Posts
+          // postsPages={postsPages}
+          query={query}
+          page={currentPage}
+          // fetchedPosts={posts}
+        />
       </div>
     </div>
   );
