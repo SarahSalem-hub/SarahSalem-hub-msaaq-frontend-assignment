@@ -9,6 +9,7 @@ import searchSvg from "../../../public/navbar/search.svg";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { CiMenuBurger } from "react-icons/ci";
+import { usePathname, useSearchParams, useRouter } from "next/navigation";
 
 interface MenuItem {
   name: string;
@@ -50,7 +51,7 @@ const Nabvar = () => {
   return (
     <div className={`${resolvedTheme && "dark"}`}>
       <div className="dark:bg-[#181A2A] w-full h-[100px] bg-[#FFFFFF] relative flex justify-center items-center">
-        <div className="w-[1218px] h-[36px]  flex justify-between items-center mx-[20px] ">
+        <div className="w-[1218px] h-[36px]  flex justify-between items-center md:mx-[20px] mx-[9px] ">
           <Logo/>
           <Menu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
           <SearchAndDarkMode
@@ -79,23 +80,23 @@ interface BurgerMenuProps {
   setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const Logo = () =>{
-    const { resolvedTheme } = useTheme();
-    const [mounted, setMounted] = useState(false);
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
 
-    useEffect(() => setMounted(true), []);
-    return (
-      <Image
-        src={mounted && resolvedTheme === "dark" ? logoWhite : logoDark}
-        alt="logo"
-        width={158}
-        height={36}
-        className="lg:w-[158px] lg:h-[36px]  md:w-[100px] md:h-[30px] w-[80px] h-[30px]"
-        priority
-      />
-    );
-  };
+  useEffect(() => setMounted(true), []);
+  return (
+    <Image
+      src={mounted && resolvedTheme === "dark" ? logoWhite : logoDark}
+      alt="logo"
+      width={158}
+      height={36}
+      className="lg:w-[158px] lg:h-[36px]  md:w-[100px] md:h-[30px] w-[80px] h-[30px]"
+      priority
+    />
+  );
+};
 
-const Menu: React.FC<MenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
+const Menu = ({ isMenuOpen, setIsMenuOpen }) => {
   return (
     <div
       className={`item ${
@@ -104,8 +105,8 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
           : "hidden"
       }`}
     >
-      {menu.map((page, idx) => {
-        return (
+      {menu.map((page, idx) =>
+        isMenuOpen ? (
           <Link
             href={page.link}
             key={idx}
@@ -113,21 +114,40 @@ const Menu: React.FC<MenuProps> = ({ isMenuOpen, setIsMenuOpen }) => {
           >
             {page.name}
           </Link>
-        );
-      })}
+        ) : (
+          <Link href={page.link} key={idx}>
+            {page.name}
+          </Link>
+        )
+      )}
     </div>
   );
 };
 
 const SearchAndDarkMode = ({
   toggleDarkMode,
-  resolvedTheme,
 }: {
   toggleDarkMode: () => void;
   resolvedTheme: string;
 }) => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const { replace } = useRouter();
+
+  function handleSearch(term: string) {
+    const params = new URLSearchParams(searchParams);
+    // console.log(term);
+    if (term) {
+      params.set("query", term);
+      params.set("page", "1");
+    } else {
+      params.delete("query");
+    }
+    // console.log("params.toString()",params.toString())
+    replace(`${pathname}?${params.toString()}`);
+  }
   return (
-    <div className="flex md:gap-[40px] gap-[20px] items-center ">
+    <div className="flex md:gap-[40px] gap-[6px] items-center ">
       <div className="relative">
         <input
           type="text"
@@ -135,6 +155,10 @@ const SearchAndDarkMode = ({
           id=""
           placeholder="Search"
           className="dark:bg-[#242535] bg-[#F4F4F5] md:h-[36px] md:w-[166px] h-[24px] w-[130px] rounded-[5px] ps-[16px]"
+          onChange={(e) => {
+            handleSearch(e.target.value);
+          }}
+          defaultValue={searchParams.get("query")?.toString()}
         />
         <Image
           src={searchSvg}
