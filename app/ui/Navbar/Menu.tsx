@@ -1,11 +1,14 @@
+
 import React from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+import { useTranslations } from "next-intl";
+
 
 export interface MenuProps {
   isMenuOpen: boolean;
   setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  session: string; 
+  session: string;
 }
 
 type MenuItem = {
@@ -14,16 +17,17 @@ type MenuItem = {
   alternative?: MenuItem;
 };
 
-const menu: MenuItem[] = [
-  { name: "Home", link: "/" },
-  { name: "Blogs", link: "/blog" },
-];
-
 export default function Menu({
   isMenuOpen,
   setIsMenuOpen,
   session,
 }: MenuProps) {
+
+  const t = useTranslations()
+  const menu: MenuItem[] = [
+    { name: t('navbar.menu.home'), link: "/" },
+    { name: t('navbar.menu.blogs'), link: "/blog" },
+  ];
   return (
     <div
       className={`item ${
@@ -47,7 +51,7 @@ export default function Menu({
             href="/profile"
             onClick={isMenuOpen ? () => setIsMenuOpen(!isMenuOpen) : undefined}
           >
-            Profile
+            {t('navbar.menu.profile')}
           </Link>
           <button
             onClick={() => {
@@ -55,7 +59,7 @@ export default function Menu({
             }}
             className="text-left"
           >
-            Log Out
+            {t('navbar.menu.signout')}
           </button>
         </>
       ) : (
@@ -64,13 +68,13 @@ export default function Menu({
             href="/login"
             onClick={isMenuOpen ? () => setIsMenuOpen(!isMenuOpen) : undefined}
           >
-            Login
+            {t('navbar.menu.signin')}
           </Link>
           <Link
             href="/register"
             onClick={isMenuOpen ? () => setIsMenuOpen(!isMenuOpen) : undefined}
           >
-            Sign up
+            {t('navbar.menu.signup')}
           </Link>
         </>
       )}

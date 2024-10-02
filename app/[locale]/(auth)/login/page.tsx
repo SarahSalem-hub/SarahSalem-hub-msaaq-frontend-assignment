@@ -1,3 +1,4 @@
+import Wrapper from "@/app/ui/Wrapper";
 import { signIn } from "@/authConfig/auth";
 import { AuthError } from "next-auth";
 import { useLocale, useTranslations } from "next-intl";
@@ -5,14 +6,15 @@ import { redirect } from "next/navigation";
 import { getLangDir } from "rtl-detect";
 
 export default function Page() {
-  const t = useTranslations("auth");
-  const tLogin = useTranslations("login");
+  const t = useTranslations();
 
   const locale = useLocale();
   const direction = getLangDir(locale);
 
   return (
-    <div className="w-[300px] h-[200px] flex justify-start items-center border-[2px] rounded-[25px] px-[10px]">
+    <Wrapper>
+     <div className="text-[30px] ">{t("login.content")}</div>
+     <div className="w-[300px] h-[200px] flex justify-start items-center border-[2px]  dark:border-[#242535] rounded-[25px] px-[10px]">
       <form
         action={async (formData) => {
           "use server";
@@ -33,25 +35,26 @@ export default function Page() {
             direction === "ltr" ? "text-left" : "text-right"
           }`}
         >
-          {tLogin("email")}
+          {t("login.email")}
 
           <input
             name="email"
             type="text"
-            className="bg-[#F4F4F5] rounded-[15px]"
+            className="bg-[#F4F4F5] dark:bg-[#242535] rounded-[15px]"
           />
         </label>
         <label className="flex flex-col">
-          {tLogin("password")}
+          {t("login.password")}
 
           <input
             name="password"
             type="password"
-            className="bg-[#F4F4F5] rounded-[15px]"
+            className="bg-[#F4F4F5] dark:bg-[#242535] rounded-[15px]"
           />
         </label>
-        <button type="submit">{t("login")}</button>
+        <button type="submit">{t("auth.login")}</button>
       </form>
     </div>
+    </Wrapper>
   );
 }

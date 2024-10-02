@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import searchSvg from "../../../public/navbar/search.svg";
 import switchLogo from "../../../public/navbar/sunny.svg";
 import LanguageSwitcher from "../LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
 type Props = {
   toggleDarkMode: () => void;
@@ -14,6 +15,7 @@ export default function SearchAndDarkMode({ toggleDarkMode }: Props) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const t = useTranslations()
 
   const handleSearch = (term: string) => {
     const params = new URLSearchParams(searchParams);
@@ -33,7 +35,7 @@ export default function SearchAndDarkMode({ toggleDarkMode }: Props) {
           type="text"
           name=""
           id=""
-          placeholder="Search"
+          placeholder={t('navbar.search.placeholder')}
           className="dark:bg-[#242535] bg-[#F4F4F5] md:h-[36px] md:w-[166px] h-[24px] w-[130px] rounded-[5px] ps-[16px]"
           onChange={(e) => {
             handleSearch(e.target.value);

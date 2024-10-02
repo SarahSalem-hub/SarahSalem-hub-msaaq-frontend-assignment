@@ -4,6 +4,8 @@ import "./globals.css";
 import { getLangDir } from "rtl-detect";
 import { Providers } from "./providers";
 import { workSans } from "./fonts/fonts";
+import { getMessages } from "next-intl/server";
+import { NextIntlClientProvider } from "next-intl";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,7 +31,7 @@ export default async function RootLayout({
   params: { locale: string };
 }) {
   const direction = getLangDir(locale);
-
+  const messages = await getMessages();
   return (
     <html
       className="dark"
@@ -40,7 +42,11 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${workSans.variable}  ${geistMono.variable}`}
       >
-        <Providers>{children}</Providers>
+        <Providers>
+          <NextIntlClientProvider messages={messages}>
+            {children}
+          </NextIntlClientProvider>
+        </Providers>
       </body>
     </html>
   );
