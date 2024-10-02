@@ -8,6 +8,7 @@ import { useTheme } from "next-themes";
 import Menu from "../Navbar/Menu";
 import SearchAndDarkMode from "../Navbar/SearchAndDarkMode";
 import BurgerMenu from "../Navbar/BurgerMenu";
+import LanguageSwitcher from "../LanguageSwitcher";
 
 const Nabvar = ({ session }) => {
   const { setTheme, resolvedTheme } = useTheme(); //dark-light provider theme
@@ -38,19 +39,21 @@ const Nabvar = ({ session }) => {
   return (
     <div className={`${resolvedTheme === "dark" ? "dark" : "light"}`}>
       <div className=" w-full h-[100px]  relative flex justify-center items-center">
-        <div className="w-[1218px] h-[36px]  flex justify-between items-center md:mx-[20px] mx-[9px] ">
+        <div className="w-[1218px] h-[36px]  flex  flex-wrap justify-between items-center md:mx-[20px] mx-[9px] ">
           <Logo /> {/* component down below */}
-          <Menu
-            session={session}
-            isMenuOpen={isMenuOpen}
-            setIsMenuOpen={setIsMenuOpen}
-          />
-          <SearchAndDarkMode toggleDarkMode={toggleDarkMode} />
-          <BurgerMenu
-            isMobile={isMobile}
-            isMenuOpen={isMenuOpen}
-            setIsMenuOpen={setIsMenuOpen}
-          />
+          <>
+            <Menu
+              session={session}
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+            />
+            <SearchAndDarkMode toggleDarkMode={toggleDarkMode} />
+            <BurgerMenu
+              isMobile={isMobile}
+              isMenuOpen={isMenuOpen}
+              setIsMenuOpen={setIsMenuOpen}
+            />
+          </>
         </div>
       </div>
     </div>
@@ -70,7 +73,7 @@ const Logo = () => {
       alt="logo"
       width={158}
       height={36}
-      className="lg:w-[158px] lg:h-[36px]  md:w-[100px] md:h-[30px] w-[80px] h-[30px]"
+      className="lg:w-[158px] lg:h-[36px]  md:w-[120px] md:h-[46px] w-[90px] h-[40px]"
       priority
     />
   );
