@@ -10,7 +10,11 @@ module.exports = {
     extend: {
       fontFamily:{
         workSans: ['var(--font-work-sans)'],
-      }
+      },
+      colors: {
+        lightBg: '#FFFFFF', // Light theme background color
+        darkBg: '#181A2A', // Dark theme background color
+      },
     },
   },
   plugins: [],
