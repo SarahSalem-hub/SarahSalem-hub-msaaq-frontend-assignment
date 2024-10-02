@@ -1,29 +1,41 @@
 "use server";
 
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { auth, signIn } from "@/authConfig/auth";
+import { prisma } from "@/prisma";
 
-// Objective: Handle authentication and authorization
-export async function login() {
-}
 
-export async function logout() {
-}
-
-export async function register(formData: FormData) {
-    const username = formData.get('username');
-  const email = formData.get('email');
-  const password = formData.get('password');
-
- 
-
-  if (!username || !email || !password) {
-    return {
-      message: 'Please fill all fields',
-      success: false,
-    };
+export async function createUser(formData: FormData){
+  console.log("inside createuser")
+  const user = await prisma.user.create({
+    data: {
+      email:  formData.get('email') as string,
+      name:  formData.get('username') as string,
+      password:  formData.get('password')as string,
+    },
+  })
+  if (user){
+    console.log("user",user)
+    formData.append("redirectTo", "/");
+    await signIn("credentials", formData);
   }
+}
 
-  cookies().set('token', JSON.stringify({ username, email, password }));
-  redirect('/home');
+export async function update(formData: FormData) {
+  const session = await auth()
+  const email = session.user.email
+ 
+  const updateUser = await prisma.user.update({
+    where: {
+      email: email,
+    },
+    data: {
+      name: formData.get('username') as string,
+      email: formData.get('email') as string,
+      password: formData.get('password') as string
+    },
+  })
+  if (updateUser){
+    formData.append("redirectTo", "/profile");
+    await signIn("credentials", formData);
+  }
 }
