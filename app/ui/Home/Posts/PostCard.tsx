@@ -1,5 +1,6 @@
 import React from "react";
 import Category from "../Category";
+import Link from "next/link";
 
 type Props = {
   title: string;
@@ -9,7 +10,8 @@ type Props = {
 
 export default function PostCard({ title, body, id }: Props) {
   return (
-    <div className="h-auto rounded-[12px] border-[#E8E8EA] p-[16px] dark:border-[#242535] border-[2px] ">
+    <Link href={`/blog/${id}`} key={id}>
+    <div className="cursor-pointer h-auto rounded-[12px] border-[#E8E8EA] p-[16px] dark:border-[#242535] border-[2px] ">
       <Category
         text={"Technology"}
         textColor={"text-[#4B6BFB]"}
@@ -19,5 +21,6 @@ export default function PostCard({ title, body, id }: Props) {
       <div>{title}</div>
       <div>{body}</div>
     </div>
+    </Link>
   );
 }
