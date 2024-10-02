@@ -4,6 +4,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import searchSvg from "../../../public/navbar/search.svg";
 import switchLogo from "../../../public/navbar/sunny.svg";
+import LanguageSwitcher from "../LanguageSwitcher";
 
 type Props = {
   toggleDarkMode: () => void;
@@ -26,7 +27,7 @@ export default function SearchAndDarkMode({ toggleDarkMode }: Props) {
     replace(`${pathname}?${params.toString()}`);
   };
   return (
-    <div className="flex md:gap-[40px] gap-[6px] items-center ">
+    <div className="flex md:gap-[40px] gap-[17px] items-center ">
       <div className="relative">
         <input
           type="text"
@@ -42,33 +43,40 @@ export default function SearchAndDarkMode({ toggleDarkMode }: Props) {
         <Image
           src={searchSvg}
           alt="search"
-          className="absolute md:top-[10px] top-[5px] right-[8px]"
+          className={`absolute md:top-[10px] top-[5px] ltr:right-[8px] rtl:left-[8px]`}
         />
       </div>
+      <LanguageSwitcher />
       <div
         className="dark:bg-[#4B6BFB] w-[48px] md:h-[28px] h-[20px]  bg-[#E8E8EA] rounded-[100px] relative mr-[5px] "
         onClick={toggleDarkMode}
       >
-        <ToggleSwitch /> {/* component is below */}
+        <ToggleSwitch toggleDarkMode={toggleDarkMode} />{" "}
+        {/* component is below */}
       </div>
     </div>
   );
 }
 
-const ToggleSwitch = () => {
+const ToggleSwitch = ({ toggleDarkMode }) => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => setMounted(true), []);
   return (
     <div
-      className={`md:w-[24px] md:h-[24px] w-[18px] h-[18px] rounded-full bg-white absolute ms-[2px] md:top-[2px] top-[1px] ${
-        mounted && resolvedTheme === "dark"
-          ? "md:translate-x-[20px] translate-x-[26px]"
-          : "translate-x-0"
-      } transition-transform duration-300 ease-in-out`}
+      className="dark:bg-[#4B6BFB] w-[48px] md:h-[28px] h-[20px]  bg-[#E8E8EA] rounded-[100px] relative mr-[5px] "
+      onClick={toggleDarkMode}
     >
-      <Image src={switchLogo} fill alt="switch" />
+      <div
+        className={`md:w-[24px] md:h-[24px] w-[18px] h-[18px] rounded-full bg-white absolute ms-[2px] md:top-[2px] top-[1px] ${
+          mounted && resolvedTheme === "dark"
+            ? "ltr:md:translate-x-[20px] ltr:translate-x-[26px] rtl:md:translate-x-[-20px] rtl:translate-x-[-26px]"
+            : "translate-x-0"
+        } transition-transform duration-300 ease-in-out`}
+      >
+        <Image src={switchLogo} fill alt="switch" />
+      </div>
     </div>
   );
 };
