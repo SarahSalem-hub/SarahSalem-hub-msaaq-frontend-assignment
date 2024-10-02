@@ -2,11 +2,19 @@
   "auth": {
     "login": "Login",
     "register": "Register"
-  }
-  ,
-  "login":{
-    "email": "Email" ,
+  },
+  "login": {
+    "email": "Email",
     "password": "Password"
+  },
+  "register": {
+    "email": "Email",
+    "username": "User name",
+    "password": "Password",
+    "placeholders": {
+      "email": "Type here your email",
+      "username": "Type here your username",
+      "password": "Type here your password"
+    }
   }
-
 }
