@@ -42,17 +42,17 @@ const Nabvar = ({ session }) => {
         <div className="w-[1218px] h-[36px]  flex  flex-wrap justify-between items-center md:mx-[20px] mx-[9px] ">
           <Logo /> {/* component down below */}
           <>
-            <Menu
-              session={session}
-              isMenuOpen={isMenuOpen}
-              setIsMenuOpen={setIsMenuOpen}
-            />
-            <SearchAndDarkMode toggleDarkMode={toggleDarkMode} />
-            <BurgerMenu
-              isMobile={isMobile}
-              isMenuOpen={isMenuOpen}
-              setIsMenuOpen={setIsMenuOpen}
-            />
+          <Menu
+            session={session}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+          />
+          <SearchAndDarkMode toggleDarkMode={toggleDarkMode} />
+          <BurgerMenu
+            isMobile={isMobile}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
+          />
           </>
         </div>
       </div>
