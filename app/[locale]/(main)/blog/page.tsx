@@ -1,4 +1,5 @@
 import Posts from "@/app/ui/Home/Posts/Posts";
+import Wrapper from "@/app/ui/Wrapper";
 
 export default async function Page({
     searchParams,
@@ -13,9 +14,11 @@ export default async function Page({
     const query = searchParams?.query || "";
     const currentPage = Number(searchParams?.page) || 1;
     return (
+      <Wrapper>
         <Posts 
         query={query} 
         page={currentPage}
         />
+        </Wrapper>
     )
 }
