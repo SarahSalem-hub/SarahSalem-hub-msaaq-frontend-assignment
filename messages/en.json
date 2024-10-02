@@ -5,7 +5,8 @@
   },
   "login": {
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "content" : "log In"
   },
   "register": {
     "email": "Email",
@@ -15,6 +16,38 @@
       "email": "Type here your email",
       "username": "Type here your username",
       "password": "Type here your password"
+    }
+  },
+  "navbar": {
+    "menu": {
+      "home": "Home",
+      "blogs": "Blogs",
+      "signin": "Log In",
+      "signup": "Sign Up",
+      "profile": "profile",
+      "signout": "Sign Out"
+    },
+    "search": {
+      "placeholder": "Search"
+    }
+  },
+  "homepage": {
+    "heroSection": {
+      "content": "The Impact of Technology on the Workplace: How Technology is Changing",
+      "category": "Technology",
+      "date": "August 20, 2022"
+    },
+    "posts": "Posts"
+  },
+  "profile": {
+    "form": {
+      "email": "Email",
+      "username": "User name",
+      "password": "Password",
+      "button":"Update"
+    },
+    "content":{
+      "greeting":"Welcome" 
     }
   }
 }
