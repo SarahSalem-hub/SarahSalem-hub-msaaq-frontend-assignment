@@ -4,25 +4,12 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import logoDark from "../../../public/navbar/Logo.svg";
 import logoWhite from "../../../public/navbar/Logo-dark.svg";
-import switchLogo from "../../../public/navbar/sunny.svg";
-import searchSvg from "../../../public/navbar/search.svg";
-import Link from "next/link";
 import { useTheme } from "next-themes";
-import { CiMenuBurger } from "react-icons/ci";
-import { usePathname, useSearchParams, useRouter } from "next/navigation";
+import Menu from "../Navbar/Menu";
+import SearchAndDarkMode from "../Navbar/SearchAndDarkMode";
+import BurgerMenu from "../Navbar/BurgerMenu";
 
-interface MenuItem {
-  name: string;
-  link: string;
-}
-
-const menu: MenuItem[] = [
-  { name: "Home", link: "/" },
-  { name: "Blogs", link: "/blog" },
-  { name: "Login", link: "/login" },
-  { name: "Sign up", link: "/register" },
-];
-const Nabvar = () => {
+const Nabvar = ({ session }) => {
   const { setTheme, resolvedTheme } = useTheme(); //dark-light provider theme
   const [isMenuOpen, setIsMenuOpen] = useState(false); // navbar
   const [isMobile, setIsMobile] = useState(false); // Track mobile view
@@ -49,15 +36,16 @@ const Nabvar = () => {
   }, [isMobile]);
 
   return (
-    <div className={`${resolvedTheme && "dark"}`}>
-      <div className="dark:bg-[#181A2A] w-full h-[100px] bg-[#FFFFFF] relative flex justify-center items-center">
+    <div className={`${resolvedTheme === "dark" ? "dark" : "light"}`}>
+      <div className=" w-full h-[100px]  relative flex justify-center items-center">
         <div className="w-[1218px] h-[36px]  flex justify-between items-center md:mx-[20px] mx-[9px] ">
-          <Logo/>
-          <Menu isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
-          <SearchAndDarkMode
-            resolvedTheme={resolvedTheme}
-            toggleDarkMode={toggleDarkMode}
+          <Logo /> {/* component down below */}
+          <Menu
+            session={session}
+            isMenuOpen={isMenuOpen}
+            setIsMenuOpen={setIsMenuOpen}
           />
+          <SearchAndDarkMode toggleDarkMode={toggleDarkMode} />
           <BurgerMenu
             isMobile={isMobile}
             isMenuOpen={isMenuOpen}
@@ -70,16 +58,8 @@ const Nabvar = () => {
 };
 
 export default Nabvar;
-interface MenuProps {
-  isMenuOpen: boolean;
-  setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-interface BurgerMenuProps {
-  isMobile: boolean;
-  isMenuOpen: boolean;
-  setIsMenuOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-const Logo = () =>{
+
+const Logo = () => {
   const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -93,122 +73,5 @@ const Logo = () =>{
       className="lg:w-[158px] lg:h-[36px]  md:w-[100px] md:h-[30px] w-[80px] h-[30px]"
       priority
     />
-  );
-};
-
-const Menu = ({ isMenuOpen, setIsMenuOpen }) => {
-  return (
-    <div
-      className={`item ${
-        isMenuOpen
-          ? "flex flex-col items-center  bg-[#FFFFFF] dark:bg-[#181A2A] dark:text-[#FFFFFF] w-full h-[200px] left-0 right-0 top-[68px] z-20"
-          : "hidden"
-      }`}
-    >
-      {menu.map((page, idx) =>
-        isMenuOpen ? (
-          <Link
-            href={page.link}
-            key={idx}
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {page.name}
-          </Link>
-        ) : (
-          <Link href={page.link} key={idx}>
-            {page.name}
-          </Link>
-        )
-      )}
-    </div>
-  );
-};
-
-const SearchAndDarkMode = ({
-  toggleDarkMode,
-}: {
-  toggleDarkMode: () => void;
-  resolvedTheme: string;
-}) => {
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { replace } = useRouter();
-
-  function handleSearch(term: string) {
-    const params = new URLSearchParams(searchParams);
-    // console.log(term);
-    if (term) {
-      params.set("query", term);
-      params.set("page", "1");
-    } else {
-      params.delete("query");
-    }
-    // console.log("params.toString()",params.toString())
-    replace(`${pathname}?${params.toString()}`);
-  }
-  return (
-    <div className="flex md:gap-[40px] gap-[6px] items-center ">
-      <div className="relative">
-        <input
-          type="text"
-          name=""
-          id=""
-          placeholder="Search"
-          className="dark:bg-[#242535] bg-[#F4F4F5] md:h-[36px] md:w-[166px] h-[24px] w-[130px] rounded-[5px] ps-[16px]"
-          onChange={(e) => {
-            handleSearch(e.target.value);
-          }}
-          defaultValue={searchParams.get("query")?.toString()}
-        />
-        <Image
-          src={searchSvg}
-          alt="search"
-          className="absolute md:top-[10px] top-[5px] right-[8px]"
-        />
-      </div>
-      <div
-        className="dark:bg-[#4B6BFB] w-[48px] md:h-[28px] h-[20px]  bg-[#E8E8EA] rounded-[100px] relative mr-[5px] "
-        onClick={toggleDarkMode}
-      >
-        <ToggleSwitch />
-      </div>
-    </div>
-  );
-};
-const ToggleSwitch = () => {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
-  return (
-    <div
-      className={`md:w-[24px] md:h-[24px] w-[18px] h-[18px] rounded-full bg-white absolute ms-[2px] md:top-[2px] top-[1px] ${
-        mounted && resolvedTheme === "dark"
-          ? "md:translate-x-[20px] translate-x-[26px]"
-          : "translate-x-0"
-      } transition-transform duration-300 ease-in-out`}
-    >
-      <Image src={switchLogo} fill alt="switch" />
-    </div>
-  );
-};
-const BurgerMenu: React.FC<BurgerMenuProps> = ({
-  isMobile,
-  isMenuOpen,
-  setIsMenuOpen,
-}) => {
-  return (
-    <div className="md:hidden">
-      <button
-        onClick={() => {
-          console.log("ismobile", isMobile);
-          if (isMobile) {
-            setIsMenuOpen(!isMenuOpen);
-          }
-        }}
-      >
-        <CiMenuBurger size={20} />
-      </button>
-    </div>
   );
 };
