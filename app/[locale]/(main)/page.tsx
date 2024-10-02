@@ -1,4 +1,3 @@
-// import { cookies } from "next/headers";
 import HeroSection from "@/app/ui/Home/HeroSection";
 import Posts from "@/app/ui/Home/Posts/Posts";
 import Wrapper from "@/app/ui/Wrapper";
@@ -20,7 +19,6 @@ export default async function Home({
   return (
     <Wrapper>
       <div>{JSON.stringify(session, null, 2)}</div>
-
       <HeroSection />
       <Posts query={query} page={currentPage} />
     </Wrapper>
